@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Hangfire;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Routing;
+using Microsoft.EntityFrameworkCore;
 using OneScript.WebHost.BackgroundJobs;
 using OneScript.WebHost.Infrastructure;
 using ScriptEngine;
@@ -170,6 +171,11 @@ namespace OneScript.WebHost.Application
 
         }
 
+        //[ContextMethod("ИспользоватьИнформационнуюБазуВпамяти")]
+        //public void UseIBInMemory(string connectionstring = "DataSource=:memory:")
+        //{
+        //    _startupBuilder.UseIBInMemory();
+        //}
 
         private void CallRoutesRegistrationHandler(string handler)
         {
