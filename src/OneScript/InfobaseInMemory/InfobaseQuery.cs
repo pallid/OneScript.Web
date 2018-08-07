@@ -185,39 +185,5 @@ namespace OneScript.WebHost.Infobase
         {
             _parameters.Insert(ParametrName, ParametrValue);
         }
-
-        /// <summary>
-        /// Установка соединения с БД.
-        /// </summary>
-        /// <param name="connector">Соединение - объект соединение с БД</param>
-        [ContextMethod("УстановитьСоединение", "SetConnection")]
-        public void SetConnection(DBConnector connector)
-        {
-            _connector = connector;
-            _connection = connector.Connection;
-
-            if (_connector.DbType == (new EnumDBType()).sqlite)
-            {
-                _command = new SQLiteCommand((SQLiteConnection)connector.Connection);
-            }
-            else if (_connector.DbType == (new EnumDBType()).MSSQLServer)
-            {
-                _command = new SqlCommand();
-                _command.Connection = (SqlConnection)connector.Connection;
-            }
-            else if (_connector.DbType == (new EnumDBType()).MySQL)
-            {
-                _command = new MySqlCommand();
-                _command.Connection = (MySqlConnection)connector.Connection;
-            }
-            else if (_connector.DbType == (new EnumDBType()).PostgreSQL)
-            {
-                _command = new NpgsqlCommand();
-                _command.Connection = (NpgsqlConnection)connector.Connection;
-            }
-
-        }
-
-
     }
 }
