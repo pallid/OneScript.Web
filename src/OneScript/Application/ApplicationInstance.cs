@@ -171,12 +171,6 @@ namespace OneScript.WebHost.Application
 
         }
 
-        //[ContextMethod("ИспользоватьИнформационнуюБазуВпамяти")]
-        //public void UseIBInMemory(string connectionstring = "DataSource=:memory:")
-        //{
-        //    _startupBuilder.UseIBInMemory();
-        //}
-
         private void CallRoutesRegistrationHandler(string handler)
         {
             var handlerIndex = GetScriptMethod(handler);
