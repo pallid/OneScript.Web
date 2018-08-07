@@ -12,11 +12,17 @@ namespace OneScript.WebHost.Infobase
         {
         }
 
-        public IApplicationRuntime RuntimeFacility { get; set; }
-        
+        //public IApplicationRuntime RuntimeFacility { get; set; }
+
         //protected override void OnModelCreating(ModelBuilder modelBuilder)
-       // {
+        // {
         //    base.OnModelCreating(modelBuilder);
-       // }
+        // }
+
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+
+            optionsBuilder.UseSqlite("DataSource=:memory:");
+        }
     }
 }

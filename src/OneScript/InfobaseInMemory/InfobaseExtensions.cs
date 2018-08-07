@@ -42,11 +42,12 @@ namespace OneScript.WebHost.Infobase
 
         public static void PrepareIbEnvironment(IServiceProvider services, RuntimeEnvironment environment)
         {
-                 var dbctx = services.GetService<ApplicationIbContext>();
+            var dbctx = services.GetService<ApplicationIbContext>();
 
-                var infobase = new InfobaseManagerContext(services);
+            var infobase = new InfobaseManagerContext(services);
 
-                environment.InjectGlobalProperty(infobase, "ИнформационнаяБаза", true);
+
+            environment.InjectGlobalProperty(infobase, "ИнформационнаяБаза", true);
                 environment.InjectGlobalProperty(infobase, "InfoBase", true);
         }
     }

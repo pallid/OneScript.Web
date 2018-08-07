@@ -1,17 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
-using OneScript.WebHost.Infobase;
+﻿
+using ScriptEngine.HostedScript.Library.Binary;
+using ScriptEngine.HostedScript.Library.ValueTable;
+using ScriptEngine.Machine;
+using ScriptEngine.Machine.Contexts;
+using System;
+using System.Data.Common;
 
-namespace QueryResult
+namespace OScriptSql
 {
     /// <summary>
     /// Содержит результат выполнения запроса. Предназначен для хранения и обработки полученных данных.
     /// </summary>
     [ContextClass("РезультатЗапроса", "QueryResult")]
-    public class QueryResult : AutoContext<QueryResult>
+    class QueryResult : AutoContext<QueryResult>
     {
         private DbDataReader _reader;
 
@@ -52,72 +53,53 @@ namespace QueryResult
                         continue;
                     }
 
+                    //Console.WriteLine("queryresult-col-type:" + record.GetFieldType(ColIdx).ToString() + "::" + record.GetDataTypeName(ColIdx));
 
-                    //Console.WriteLine("queryresult-col-type:" + _reader.GetName(ColIdx) + " = " +  record.GetFieldType(ColIdx).ToString() + "::" + record.GetDataTypeName(ColIdx));
-
-
-
-                    if (record.GetFieldType(ColIdx) == typeof(SByte))
+                    if (record.GetFieldType(ColIdx) == typeof(Int32))
                     {
                         row.Set(ColIdx, ValueFactory.Create((int)record.GetValue(ColIdx)));
                     }
-                    else if (record.GetFieldType(ColIdx) == typeof(Int32))
-                    {
-                        row.Set(ColIdx, ValueFactory.Create((int)record.GetValue(ColIdx)));
-                    }
-                    else if (record.GetFieldType(ColIdx) == typeof(Int64))
+                    if (record.GetFieldType(ColIdx) == typeof(Int64))
                     {
                         row.Set(ColIdx, ValueFactory.Create(record.GetInt64(ColIdx)));
                     }
-                    else if (record.GetFieldType(ColIdx) == typeof(Boolean))
+                    if (record.GetFieldType(ColIdx) == typeof(Boolean))
                     {
                         row.Set(ColIdx, ValueFactory.Create(record.GetBoolean(ColIdx)));
                     }
-                    else if (record.GetFieldType(ColIdx) == typeof(UInt64))
+                    if (record.GetFieldType(ColIdx) == typeof(UInt64))
                     {
                         row.Set(ColIdx, ValueFactory.Create(record.GetValue(ColIdx).ToString()));
                     }
-                    else if (record.GetFieldType(ColIdx).ToString() == "System.Double")
+
+                    if (record.GetFieldType(ColIdx).ToString() == "System.Double")
                     {
                         double val = record.GetDouble(ColIdx);
                         row.Set(ColIdx, ValueFactory.Create(val.ToString()));
                     }
-                    else if (record.GetFieldType(ColIdx) == typeof(Single))
+                    if (record.GetFieldType(ColIdx) == typeof(Single))
                     {
                         float val = record.GetFloat(ColIdx);
                         row.Set(ColIdx, ValueFactory.Create(val.ToString()));
                     }
-                    else if (record.GetFieldType(ColIdx) == typeof(Decimal))
+                    if (record.GetFieldType(ColIdx) == typeof(Decimal))
                     {
                         row.Set(ColIdx, ValueFactory.Create(record.GetDecimal(ColIdx)));
                     }
-                    else if (record.GetFieldType(ColIdx).ToString() == "System.String")
+                    if (record.GetFieldType(ColIdx).ToString() == "System.String")
                     {
                         row.Set(ColIdx, ValueFactory.Create(record.GetString(ColIdx)));
                     }
-                    else if (record.GetFieldType(ColIdx).ToString() == "System.DateTime")
+                    if (record.GetFieldType(ColIdx).ToString() == "System.DateTime")
                     {
                         row.Set(ColIdx, ValueFactory.Create(record.GetDateTime(ColIdx)));
                     }
-                    else if (record.GetFieldType(ColIdx).ToString() == "System.Byte[]")
+                    if (record.GetFieldType(ColIdx).ToString() == "System.Byte[]")
                     {
                         var data = (byte[])record[ColIdx];
                         var newData = new BinaryDataContext(data);
                         row.Set(ColIdx, ValueFactory.Create(newData));
                     }
-                    else if (record.GetDataTypeName(ColIdx) == "uniqueidentifier")
-                    {
-                        row.Set(ColIdx, ValueFactory.Create(record.GetValue(ColIdx).ToString()));
-                    }
-                    else if (record.GetDataTypeName(ColIdx) == "tinyint")
-                    {
-                        row.Set(ColIdx, ValueFactory.Create((int)record.GetByte(ColIdx)));
-                    }
-                    else
-                    {
-                        row.Set(ColIdx, ValueFactory.Create(record.GetString(ColIdx)));
-                    }
-
                 }
             }
             _reader.Close();

@@ -11,7 +11,10 @@ using OneScript.WebHost.Identity;
 using ScriptEngine.HostedScript.Library;
 using ScriptEngine.Machine;
 using ScriptEngine.Machine.Contexts;
-
+using System.Data.SqlClient;
+using Microsoft.Data.Sqlite;
+using System.Data.Common;
+using OScriptSql;
 
 namespace OneScript.WebHost.Infobase
 {
@@ -19,19 +22,43 @@ namespace OneScript.WebHost.Infobase
     public class InfobaseManagerContext : AutoContext<InfobaseManagerContext>
     {
         private readonly IServiceProvider _services;
+        private readonly SqliteConnection _connection;
 
         public InfobaseManagerContext(IServiceProvider services)
         {
             _services = services;
+
+            var connectionStringBuilder = new SqliteConnectionStringBuilder { DataSource = ":memory:" };
+            _connection = new SqliteConnection(connectionStringBuilder.ToString());
+
+            _connection.Open();
         }
 
-        [ContextMethod("ПолучитьПользователей")]
+        [ContextMethod("ВыполнитьКоманду")]
         public int GetUsers(string srt)
         {
-            var dbctx = _services.GetService<ApplicationIbContext>();
-            var res = dbctx.Database.ExecuteSqlCommand(srt);
+   
+            SqliteCommand cmd = new SqliteCommand(srt, _connection);
+
+            var res = cmd.ExecuteNonQuery();
 
             return res;
+        
+        }
+
+        [ContextMethod("Выполнить")]
+        public IValue GetUserss(string srt)
+        {
+
+            SqliteCommand cmd = new SqliteCommand(srt, _connection);
+         
+            var reader = cmd.ExecuteReader();
+
+            var result = new QueryResult(reader);
+
+            return result;
+
+
         }
     }
 }
