@@ -6,7 +6,7 @@ using OneScript.WebHost.Identity;
 
 namespace OneScript.WebHost.Infobase
 {
-    public class ApplicationIbContext : IdentityDbContext<ApplicationUser, ApplicationRole, string>
+    public class ApplicationIbContext : DbContext
     {
         public ApplicationIbContext(DbContextOptions<ApplicationIbContext> options):base(options)
         {
