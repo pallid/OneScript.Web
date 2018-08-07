@@ -7,7 +7,6 @@ using System.Threading.Tasks;
 using Hangfire;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Routing;
-using Microsoft.EntityFrameworkCore;
 using OneScript.WebHost.BackgroundJobs;
 using OneScript.WebHost.Infrastructure;
 using ScriptEngine;
