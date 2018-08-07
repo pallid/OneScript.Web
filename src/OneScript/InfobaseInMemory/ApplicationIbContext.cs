@@ -11,18 +11,5 @@ namespace OneScript.WebHost.Infobase
         public ApplicationIbContext(DbContextOptions<ApplicationIbContext> options):base(options)
         {
         }
-
-        //public IApplicationRuntime RuntimeFacility { get; set; }
-
-        //protected override void OnModelCreating(ModelBuilder modelBuilder)
-        // {
-        //    base.OnModelCreating(modelBuilder);
-        // }
-
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-
-            optionsBuilder.UseSqlite("DataSource=:memory:");
-        }
     }
 }
