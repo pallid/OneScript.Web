@@ -11,6 +11,7 @@ namespace OneScript.WebHost.Infobase
     {
         private readonly IServiceProvider _services;
         private readonly SqliteConnection _connection;
+        private readonly string _lastErrorMessage;
 
         public InfobaseManagerContext(IServiceProvider services)
         {
@@ -20,6 +21,21 @@ namespace OneScript.WebHost.Infobase
             _connection = new SqliteConnection(connectionStringBuilder.ToString());
 
             _connection.Open();
+
+            _lastErrorMessage = "";
+        }
+
+        /// <summary>
+        /// Текст последней ошибки
+        /// </summary>
+        /// <value>Строка</value>
+        [ContextProperty("ПоследнееСообщениеОбОшибке", "LastErrorMessage")]
+        public string LastErrorMessage
+        {
+            get
+            {
+                return _lastErrorMessage;
+            }
         }
 
         [ContextMethod("ВыполнитьКоманду")]
@@ -47,6 +63,26 @@ namespace OneScript.WebHost.Infobase
             return result;
 
 
+        }
+
+        public SqliteConnection Connection
+        {
+            get
+            {
+                return _connection;
+            }
+        }
+
+        /// <summary>
+        /// Создать запрос с установленным соединением
+        /// </summary>
+        /// <returns>Запрос - Запрос с установленным соединением</returns>
+        [ContextMethod("СоздатьЗапрос", "CreateQuery")]
+        public Query CreateQuery()
+        {
+            var query = new Query();
+            query.SetConnection(_connection);
+            return query;
         }
     }
 }
