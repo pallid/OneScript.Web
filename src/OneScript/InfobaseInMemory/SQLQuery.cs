@@ -125,6 +125,31 @@ namespace OScriptSql
         }
 
         /// <summary>
+        /// Выполняет запрос на модификацию к базе данных. 
+        /// </summary>
+        /// <returns>Число - Число обработанных строк.</returns>
+        [ContextMethod("ВыполнитьКоманду", "ExecuteCommand")]
+        public int ExecuteCommand()
+        {
+            var sec = new SystemEnvironmentContext();
+            string versionOnescript = sec.Version;
+
+            string[] verInfo = versionOnescript.Split('.');
+
+            //if (Convert.ToInt64(verInfo[2]) >= 15)
+            //{
+            //    Console.WriteLine("> 15");
+            //}
+
+            var result = new QueryResult();
+
+            _command.Parameters.Clear();
+            _command.CommandText = _text;
+            setDbCommandParameters();
+            return _command.ExecuteNonQuery();
+        }
+
+        /// <summary>
         /// Устанавливает параметр запроса. Параметры доступны для обращения в тексте запроса. 
         /// С помощью этого метода можно передавать переменные в запрос, например, для использования в условиях запроса.
         /// ВАЖНО: В запросе имя параметра указывается с использованием '@'.
