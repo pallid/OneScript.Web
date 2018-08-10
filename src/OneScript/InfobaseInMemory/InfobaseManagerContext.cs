@@ -38,6 +38,10 @@ namespace OneScript.WebHost.Infobase
             }
         }
 
+        /// <summary>
+        /// Выполняет запрос на модификацию к базе данных. 
+        /// </summary>
+        /// <returns>Число - Число обработанных строк.</returns>
         [ContextMethod("ВыполнитьКоманду")]
         public int GetUsers(string srt)
         {
@@ -47,21 +51,6 @@ namespace OneScript.WebHost.Infobase
             var res = cmd.ExecuteNonQuery();
 
             return res;
-        
-        }
-
-        [ContextMethod("Выполнить")]
-        public IValue GetUserss(string srt)
-        {
-
-            SqliteCommand cmd = new SqliteCommand(srt, _connection);
-         
-            var reader = cmd.ExecuteReader();
-
-            var result = new QueryResult(reader);
-
-            return result;
-
 
         }
 

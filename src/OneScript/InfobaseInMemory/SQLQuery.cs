@@ -10,10 +10,6 @@ using System.Data.Common;
 
 namespace OScriptSql
 {
-    /// <summary>
-    /// Предназначен для выполнения запросов к базе данных.
-    /// </summary>
-    [ContextClass("Запрос", "Query")]
     public class Query : AutoContext<Query>, IOScriptQuery
     {
 
@@ -129,41 +125,6 @@ namespace OScriptSql
         }
 
         /// <summary>
-        /// Выполняет запрос к базе данных. Cиноним для Выполнить
-        /// </summary>
-        /// <returns>РезультатЗапроса</returns>
-        [ContextMethod("ВыполнитьЗапрос", "ExecuteQuery")]
-        public IValue ExecuteQuery()
-        {
-            return Execute();
-        }
-
-        /// <summary>
-        /// Выполняет запрос на модификацию к базе данных. 
-        /// </summary>
-        /// <returns>Число - Число обработанных строк.</returns>
-        [ContextMethod("ВыполнитьКоманду", "ExecuteCommand")]
-        public int ExecuteCommand()
-        {
-            var sec = new SystemEnvironmentContext();
-            string versionOnescript = sec.Version;
-
-            string[] verInfo = versionOnescript.Split('.');
-
-            //if (Convert.ToInt64(verInfo[2]) >= 15)
-            //{
-            //    Console.WriteLine("> 15");
-            //}
-
-            var result = new QueryResult();
-
-            _command.Parameters.Clear();
-            _command.CommandText = _text;
-            setDbCommandParameters();
-            return _command.ExecuteNonQuery();
-        }
-
-        /// <summary>
         /// Устанавливает параметр запроса. Параметры доступны для обращения в тексте запроса. 
         /// С помощью этого метода можно передавать переменные в запрос, например, для использования в условиях запроса.
         /// ВАЖНО: В запросе имя параметра указывается с использованием '@'.
@@ -180,11 +141,6 @@ namespace OScriptSql
             _parameters.Insert(ParametrName, ParametrValue);
         }
 
-        /// <summary>
-        /// Установка соединения с БД.
-        /// </summary>
-        /// <param name="connector">Соединение - объект соединение с БД</param>
-        [ContextMethod("УстановитьСоединение", "SetConnection")]
         public void SetConnection(SqliteConnection connector)
         {
             _command = new SqliteCommand("",connector);
