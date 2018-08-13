@@ -50,7 +50,7 @@ namespace OneScript.WebHost
             services.AddDatabaseByConfiguration(Configuration);
             services.AddIdentityByConfiguration(Configuration);
             services.AddBackgroundJobsByConfiguration(Configuration);
-            
+
             services.AddMvc()
                 .ConfigureApplicationPartManager(pm=>pm.FeatureProviders.Add(new ScriptedViewComponentFeatureProvider()));
 
